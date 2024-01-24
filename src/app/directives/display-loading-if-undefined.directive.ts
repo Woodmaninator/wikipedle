@@ -11,7 +11,7 @@ export class DisplayLoadingIfUndefinedDirective {
     private viewContainer: ViewContainerRef,
     ) { }
 
-  @Input() set wea5DisplayLoadingIfUndefined(condition: any) {
+  @Input() set wpDisplayLoadingIfUndefined(condition: any) {
     if (condition != undefined) {
       this.viewContainer.clear();
       this.viewContainer.createEmbeddedView(this.templateRef);
