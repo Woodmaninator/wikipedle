@@ -2,39 +2,63 @@
     <div class="ui grid middle aligned center aligned" *wpDisplayLoadingIfUndefined="option1">
         
         <div class="ui row middle aligned center aligned">
+            <h3>Your highscore:</h3>
+        </div>
+
+        <div class="ui row middle aligned center aligned">
+            <h3>{{highscore}}</h3>
+        </div>
+
+        <div class="ui divider"></div>
+
+        <div class="ui row middle aligned center aligned">
             <h1>Your score:</h1>
         </div>
 
         <div class="ui row middle aligned center aligned">
             <h1>{{score}}</h1>
         </div>
+
+        <div class="ui divider"></div>
         
         <div class="ui row middle aligned center aligned">
             <h1>{{ notificationText }}</h1>
         </div>
 
         <div class="ui row">
-            <div class="ui eight wide column middle aligned center aligned">
+            <div class="wpOption ui eight wide column middle aligned center aligned" (click)="option1Clicked()" [ngClass]="{'chosen': option1Chosen}">
                 <h3>
                     {{ option1?.title}}
                 </h3>
+                <p>
+                    {{ option1?.description}}
+                </p>
                 <div *ngIf="over">
                     {{option1?.averageViews}} daily views
                 </div>
-                <div>
-                    <button class="ui blue button" [disabled]="over" (click)="option1Clicked()">Choose this one</button>
+                
+                <div *ngIf="!over">
+                    <h4>Choose this one</h4>
+                    <!--<button class="ui blue button" [disabled]="over" (click)="option1Clicked()">Choose this one</button>-->
                 </div>
+                
             </div>
-            <div class="ui eight wide column middle aligned center aligned">
+            <div class="wpOption ui eight wide column middle aligned center aligned" (click)="option2Clicked()" [ngClass]="{'chosen': option2Chosen}">
                 <h3>
                     {{ option2?.title}}
                 </h3>
+                <p>
+                    {{ option2?.description}}
+                </p>
                 <div *ngIf="over">
                     {{option2?.averageViews}} daily views
                 </div>
-                <div>
-                    <button class="ui blue button" [disabled]="over" (click)="option2Clicked()">Choose that one</button>
+                
+                <div *ngIf="!over">
+                    <h4>Choose that one</h4>
+                    <!--<button class="ui blue button" [disabled]="over" (click)="option2Clicked()">Choose that one</button>-->
                 </div>
+                
             </div>
         </div>
         <div class="ui row" *ngIf="over && score > 0">
