@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Observable, catchError, map, of } from 'rxjs';
 import { RandomArticle } from '../domain/random-article';
+import { WikiArticle } from '../domain/wiki-article';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,20 @@ export class WikipediaApiService {
     return this.http.get(
       environment.wikipediaApiUrl + '?action=query&format=json&prop=pageviews&origin=*&pageids=' + articleIds.join('|')	 + '&pvipdays=' + recentDays
     ).pipe(map<any, any>(res => res), catchError(this.errorHandler));
+  }
+
+  getDescriptionForPage(pageId: number) : Observable<string> {
+    return this.http.get(
+      environment.wikipediaApiUrl + '?action=query&format=json&prop=extracts&exchars=400&exintro&explaintext&origin=*&pageids=' + pageId
+    ).pipe(map<any, string>((res:any) => {
+      return res.query.pages[pageId.toString()].extract;
+    }), catchError(this.errorHandler));
+  }
+
+  fillWikiArticleWithActualInformation(wikiArticle: WikiArticle) : Observable<WikiArticle> {
+    return this.getDescriptionForPage(wikiArticle.id).pipe(map<string, WikiArticle>((description: string) => {
+      wikiArticle.description = description;
+      return wikiArticle;
+    }));
   }
 }

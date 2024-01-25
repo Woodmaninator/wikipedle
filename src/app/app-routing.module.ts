@@ -6,20 +6,6 @@ import { PopularityGameComponent } from './components/popularity-game/popularity
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'index.html',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'popularitygame',
     component: PopularityGameComponent
   }
 ];

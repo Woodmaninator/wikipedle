@@ -1,0 +1,17 @@
+.wpOption {
+    border: 1px solid #2185d0;
+    border-radius: 5px;
+    padding: 20px;
+    height: 100%;
+}
+
+.wpOption:hover {
+    background-color: #2185d0;
+    color: white;
+    cursor: pointer;
+}
+
+.wpOption.chosen {
+    background-color: #2185d0;
+    color: white;
+}
