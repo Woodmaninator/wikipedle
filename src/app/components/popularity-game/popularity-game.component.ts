@@ -23,6 +23,9 @@ export class PopularityGameComponent {
   highscore: number = 0;
   over = false;
 
+  showShare = false;
+  shareText = '';
+
   constructor(
     private apiService: WikipediaApiService,
     private highscoreService: HighscoreService) {
@@ -38,7 +41,9 @@ export class PopularityGameComponent {
         this.score++;
       } else {
         this.notificationText = 'Game Over! You scored ' + this.score + ' points.';
+        this.setShareText(this.score);
         this.score = 0;
+        this.showShare = true;
       }
       this.updateHighscore(this.score);
       this.over = true;
@@ -53,7 +58,9 @@ export class PopularityGameComponent {
         this.score++;
       } else {
         this.notificationText = 'Game Over! You scored ' + this.score + ' points.';
+        this.setShareText(this.score);
         this.score = 0;
+        this.showShare = true;
       }
       this.updateHighscore(this.score);
       this.over = true;
@@ -61,6 +68,7 @@ export class PopularityGameComponent {
   }
 
   initializeOptions() {
+    this.showShare = false;
     this.option1 = undefined;
     this.option2 = undefined;
 
@@ -109,5 +117,18 @@ export class PopularityGameComponent {
       this.highscoreService.setHighscore(score);
       this.highscore = score;
     }
+  }
+
+  private setShareText(score: number) {
+    if(score == 1)
+      this.shareText = 'I scored ' + this.score + ' point in Wikipedle! https://woodmaninator.github.io/wikipedle';
+    else
+      this.shareText = 'I scored ' + this.score + ' points in Wikipedle! https://woodmaninator.github.io/wikipedle';
+    
+  }
+
+  share() {
+    //Copy the a text to the clipboard
+    navigator.clipboard.writeText(this.shareText);
   }
 }

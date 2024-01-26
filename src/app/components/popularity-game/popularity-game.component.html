@@ -25,6 +25,10 @@
             <h1>{{ notificationText }}</h1>
         </div>
 
+        <div *ngIf="showShare" class="ui row middle aligned center aligned">
+            <button class="ui button blue" (click)="share()">Share (Copies to clipboard)</button>
+        </div>
+
         <div class="ui row">
             <div class="wpOption ui eight wide column middle aligned center aligned" (click)="option1Clicked()" [ngClass]="{'chosen': option1Chosen}">
                 <h3>
