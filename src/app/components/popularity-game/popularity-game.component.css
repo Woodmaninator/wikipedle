@@ -1,17 +1,24 @@
 .wpOption {
-    border: 1px solid #2185d0;
+    border: 1px solid #000000;
     border-radius: 5px;
     padding: 20px;
     height: 100%;
 }
 
 .wpOption:hover {
-    background-color: #2185d0;
-    color: white;
+    background-color: #cccccc;
+    color: black;
     cursor: pointer;
 }
 
-.wpOption.chosen {
-    background-color: #2185d0;
+.wpOption.chosen-correct {
+    background-color: #21ba45;
     color: white;
+    cursor: default;
+}
+
+.wpOption.chosen-incorrect {
+    background-color: rgb(209, 41, 41);
+    color: white;
+    cursor: default;
 }

@@ -8,16 +8,15 @@ import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
 @Component({
   selector: 'wp-popularity-game',
   templateUrl: './popularity-game.component.html',
-  styleUrls: ['./popularity-game.component.css']
+  styleUrls: ['./popularity-game.component.css'],
 })
 export class PopularityGameComponent {
-
   option1?: WikiArticle = undefined;
   option2?: WikiArticle = undefined;
 
-  option1Chosen = false;
-  option2Chosen = false;
-  
+  chosenOption: number = 0;
+  correctOption: number = 0;
+
   notificationText: string = 'Which article is more popular?';
   score: number = 0;
   highscore: number = 0;
@@ -28,43 +27,48 @@ export class PopularityGameComponent {
 
   constructor(
     private apiService: WikipediaApiService,
-    private highscoreService: HighscoreService) {
+    private highscoreService: HighscoreService
+  ) {
     this.initializeOptions();
     this.initializeHighscore();
   }
 
-  option1Clicked() {
-    if(!this.over && this.option1 != undefined && this.option2 != undefined) {
-      this.option1Chosen = true;
-      if(this.option1.averageViews >= this.option2.averageViews) {
+  optionClicked(
+    chosenOption: number,
+    option1?: WikiArticle,
+    option2?: WikiArticle
+  ) {
+    if (!this.over && option1 != undefined && option2 != undefined) {
+      this.chosenOption = chosenOption;
+      let correctOption: number;
+      if (chosenOption === 1) {
+        correctOption = option1.averageViews >= option2.averageViews ? 1 : 2;
+      } else {
+        correctOption = option2.averageViews >= option1.averageViews ? 2 : 1;
+      }
+
+      if (this.chosenOption === correctOption) {
         this.notificationText = 'Correct!';
         this.score++;
       } else {
-        this.notificationText = 'Game Over! You scored ' + this.score + ' points.';
+        this.notificationText =
+          'Game Over! You scored ' + this.score + ' points.';
         this.setShareText(this.score);
         this.score = 0;
         this.showShare = true;
       }
+      this.correctOption = correctOption;
       this.updateHighscore(this.score);
       this.over = true;
     }
   }
 
+  option1Clicked() {
+    this.optionClicked(1, this.option1, this.option2);
+  }
+
   option2Clicked() {
-    if(!this.over && this.option1 != undefined && this.option2 != undefined) {
-      this.option2Chosen = true;
-      if(this.option2.averageViews >= this.option1.averageViews) {
-        this.notificationText = 'Correct!';
-        this.score++;
-      } else {
-        this.notificationText = 'Game Over! You scored ' + this.score + ' points.';
-        this.setShareText(this.score);
-        this.score = 0;
-        this.showShare = true;
-      }
-      this.updateHighscore(this.score);
-      this.over = true;
-    }
+    this.optionClicked(2, this.option1, this.option2);
   }
 
   initializeOptions() {
@@ -72,8 +76,8 @@ export class PopularityGameComponent {
     this.option1 = undefined;
     this.option2 = undefined;
 
-    this.option1Chosen = false;
-    this.option2Chosen = false;
+    this.chosenOption = 0;
+    this.correctOption = 0;
 
     let articles = wikiArticles;
 
@@ -83,28 +87,35 @@ export class PopularityGameComponent {
     let tempOption1 = articles[randomIndex1];
     let tempOption2 = articles[randomIndex2];
 
-    while(randomIndex1 == randomIndex2 || Math.abs(tempOption1.averageViews - tempOption2.averageViews) < 500) {
+    while (
+      randomIndex1 == randomIndex2 ||
+      Math.abs(tempOption1.averageViews - tempOption2.averageViews) < 500
+    ) {
       randomIndex2 = Math.floor(Math.random() * articles.length);
-    
+
       tempOption2 = articles[randomIndex2];
     }
 
     let observables = [
       this.apiService.fillWikiArticleWithActualInformation(tempOption1),
-      this.apiService.fillWikiArticleWithActualInformation(tempOption2)
+      this.apiService.fillWikiArticleWithActualInformation(tempOption2),
     ];
 
-    forkJoin(observables).pipe(map(([o1, o2]) => {
-      return {
-        option1: o1,
-        option2: o2
-      };
-    })).subscribe((res: any) => {
-      this.option1 = res.option1;
-      this.option2 = res.option2;
-      this.over = false;
-      this.notificationText = 'Which article is more popular?';
-    });
+    forkJoin(observables)
+      .pipe(
+        map(([o1, o2]) => {
+          return {
+            option1: o1,
+            option2: o2,
+          };
+        })
+      )
+      .subscribe((res: any) => {
+        this.option1 = res.option1;
+        this.option2 = res.option2;
+        this.over = false;
+        this.notificationText = 'Which article is more popular?';
+      });
   }
 
   private initializeHighscore() {
@@ -113,18 +124,23 @@ export class PopularityGameComponent {
 
   private updateHighscore(score: number) {
     const currentHighscore = this.highscoreService.getHighscore();
-    if(score > currentHighscore) {
+    if (score > currentHighscore) {
       this.highscoreService.setHighscore(score);
       this.highscore = score;
     }
   }
 
   private setShareText(score: number) {
-    if(score == 1)
-      this.shareText = 'I scored ' + this.score + ' point in Wikipedle! https://woodmaninator.github.io/wikipedle';
+    if (score == 1)
+      this.shareText =
+        'I scored ' +
+        this.score +
+        ' point in Wikipedle! https://woodmaninator.github.io/wikipedle';
     else
-      this.shareText = 'I scored ' + this.score + ' points in Wikipedle! https://woodmaninator.github.io/wikipedle';
-    
+      this.shareText =
+        'I scored ' +
+        this.score +
+        ' points in Wikipedle! https://woodmaninator.github.io/wikipedle';
   }
 
   share() {

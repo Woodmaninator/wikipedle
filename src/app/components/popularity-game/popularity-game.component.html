@@ -30,7 +30,7 @@
         </div>
 
         <div class="ui row">
-            <div class="wpOption ui eight wide column middle aligned center aligned" (click)="option1Clicked()" [ngClass]="{'chosen': option1Chosen}">
+            <div class="wpOption ui seven wide column middle aligned center aligned" (click)="option1Clicked()" [ngClass]="{'chosen-correct': chosenOption != 0 && chosenOption == correctOption && chosenOption == 1, 'chosen-incorrect': chosenOption != 0 && chosenOption != correctOption && chosenOption == 1}">
                 <h3>
                     {{ option1?.title}}
                 </h3>
@@ -43,11 +43,14 @@
                 
                 <div *ngIf="!over">
                     <h4>Choose this one</h4>
-                    <!--<button class="ui blue button" [disabled]="over" (click)="option1Clicked()">Choose this one</button>-->
+                    <!--<button class="ui green button" [disabled]="over" (click)="option1Clicked()">Choose this one</button>-->
                 </div>
                 
             </div>
-            <div class="wpOption ui eight wide column middle aligned center aligned" (click)="option2Clicked()" [ngClass]="{'chosen': option2Chosen}">
+
+            <div class="ui one wide column"></div>
+
+            <div class="wpOption ui seven wide column middle aligned center aligned" (click)="option2Clicked()" [ngClass]="{'chosen-correct': chosenOption != 0 && chosenOption == correctOption && chosenOption == 2, 'chosen-incorrect': chosenOption != 0 && chosenOption != correctOption && chosenOption == 2}">
                 <h3>
                     {{ option2?.title}}
                 </h3>
@@ -60,7 +63,7 @@
                 
                 <div *ngIf="!over">
                     <h4>Choose that one</h4>
-                    <!--<button class="ui blue button" [disabled]="over" (click)="option2Clicked()">Choose that one</button>-->
+                    <!--<button class="ui green button" [disabled]="over" (click)="option2Clicked()">Choose that one</button>-->
                 </div>
                 
             </div>

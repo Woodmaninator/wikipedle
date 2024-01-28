@@ -15,7 +15,7 @@ body, html, wp-root, body > div {
   
 footer {
     flex-shrink: 0;
-    background-color: #2185d0;
+    background-color: #21ba45;
     color: white;
     height: 80px;
 }
