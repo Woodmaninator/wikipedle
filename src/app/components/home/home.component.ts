@@ -4,14 +4,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'wp-home',
   templateUrl: './home.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class HomeComponent {
-  
   constructor(private router: Router) {}
-  
-  navigateToGame(){
+
+  navigateToGame() {
     this.router.navigateByUrl('/popularitygame');
   }
 }

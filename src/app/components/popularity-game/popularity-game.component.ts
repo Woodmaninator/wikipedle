@@ -4,6 +4,7 @@ import { wikiArticles } from 'src/app/data/wiki-article-data';
 import { WikiArticle } from 'src/app/domain/wiki-article';
 import { HighscoreService } from 'src/app/services/highscore.service';
 import { WikipediaApiService } from 'src/app/services/wikipedia-api.service';
+import party from 'party-js';
 
 @Component({
   selector: 'wp-popularity-game',
@@ -36,7 +37,8 @@ export class PopularityGameComponent {
   optionClicked(
     chosenOption: number,
     option1?: WikiArticle,
-    option2?: WikiArticle
+    option2?: WikiArticle,
+    target?: any
   ) {
     if (!this.over && option1 != undefined && option2 != undefined) {
       this.chosenOption = chosenOption;
@@ -50,6 +52,19 @@ export class PopularityGameComponent {
       if (this.chosenOption === correctOption) {
         this.notificationText = 'Correct!';
         this.score++;
+
+        //Confetti time
+        party.confetti(target, {
+          count: party.variation.range(100, 150),
+          shapes: [
+            'square',
+            'circle',
+            'rectangle',
+            'roundedSquare',
+            'roundedRectangle',
+            'star',
+          ],
+        });
       } else {
         this.notificationText =
           'Game Over! You scored ' + this.score + ' points.';
@@ -63,12 +78,12 @@ export class PopularityGameComponent {
     }
   }
 
-  option1Clicked() {
-    this.optionClicked(1, this.option1, this.option2);
+  option1Clicked(target: any) {
+    this.optionClicked(1, this.option1, this.option2, target);
   }
 
-  option2Clicked() {
-    this.optionClicked(2, this.option1, this.option2);
+  option2Clicked(target: any) {
+    this.optionClicked(2, this.option1, this.option2, target);
   }
 
   initializeOptions() {

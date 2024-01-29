@@ -6,6 +6,9 @@ body, html, wp-root, body > div {
     padding: 0;
     display: flex;
     flex-direction: column;
+    background-color: #333333;
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
   
 .main {
@@ -15,7 +18,11 @@ body, html, wp-root, body > div {
   
 footer {
     flex-shrink: 0;
-    background-color: #21ba45;
+    /*background-color: #21ba45;*/
     color: white;
     height: 80px;
+}
+
+#party-js-container {
+    background-color: transparent !important;
 }

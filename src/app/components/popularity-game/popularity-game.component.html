@@ -1,12 +1,64 @@
 <div *wpDisplayLoadingIfUndefined="option2">
     <div class="ui grid middle aligned center aligned" *wpDisplayLoadingIfUndefined="option1">
         
+        <h1 class="title">Wikipedle</h1>
+
+        <div class="ui divider"></div>
+        
         <div class="ui row middle aligned center aligned">
-            <h3>Your highscore:</h3>
+            <h1>{{ notificationText }}</h1>
         </div>
 
-        <div class="ui row middle aligned center aligned">
-            <h3>{{highscore}}</h3>
+        <div class="ui row middle aligned center aligned" style="height: 50px;">
+            <button *ngIf="showShare" class="ui button blue" (click)="share()">Share (Copies to clipboard)</button>
+        </div>
+
+        <div class="ui row">
+            <div class="wpOption ui four wide column middle aligned center aligned" (click)="option1Clicked($event.target)" [ngClass]="{'chosen-correct': chosenOption != 0 && chosenOption == correctOption && chosenOption == 1, 'chosen-incorrect': chosenOption != 0 && chosenOption != correctOption && chosenOption == 1}">
+                <div class="ui middle aligned center aligned">
+                    <h3>
+                        {{ option1?.title}}
+                    </h3>
+                    <p>
+                        {{ option1?.description}}
+                    </p>
+                    <div *ngIf="over">
+                        {{option1?.averageViews}} daily views
+                    </div>
+                    
+                    <div *ngIf="!over">
+                        <h4>Choose this one</h4>
+                        <!--<button class="ui green button" [disabled]="over" (click)="option1Clicked()">Choose this one</button>-->
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="ui one wide column"></div>
+
+            <div class="wpOption ui four wide column middle aligned center aligned" (click)="option2Clicked($event.target)" [ngClass]="{'chosen-correct': chosenOption != 0 && chosenOption == correctOption && chosenOption == 2, 'chosen-incorrect': chosenOption != 0 && chosenOption != correctOption && chosenOption == 2}">
+                <div class="ui middle aligned center aligned">
+                    <h3>
+                        {{ option2?.title}}
+                    </h3>
+                    <p>
+                        {{ option2?.description}}
+                    </p>
+                    <div *ngIf="over">
+                        {{option2?.averageViews}} daily views
+                    </div>
+                    
+                    <div *ngIf="!over">
+                        <h4>Choose that one</h4>
+                        <!--<button class="ui green button" [disabled]="over" (click)="option2Clicked()">Choose that one</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui row" style="height: 50px;">
+            <button *ngIf="over && score == 0" class="ui blue button" (click)="initializeOptions()">Try again</button>
+            <button *ngIf="over && score > 0" class="ui blue button" (click)="initializeOptions()">Next round</button>
         </div>
 
         <div class="ui divider"></div>
@@ -20,60 +72,14 @@
         </div>
 
         <div class="ui divider"></div>
-        
+
         <div class="ui row middle aligned center aligned">
-            <h1>{{ notificationText }}</h1>
+            <h3>Your highscore:</h3>
         </div>
 
-        <div *ngIf="showShare" class="ui row middle aligned center aligned">
-            <button class="ui button blue" (click)="share()">Share (Copies to clipboard)</button>
+        <div class="ui row middle aligned center aligned">
+            <h3>{{highscore}}</h3>
         </div>
 
-        <div class="ui row">
-            <div class="wpOption ui seven wide column middle aligned center aligned" (click)="option1Clicked()" [ngClass]="{'chosen-correct': chosenOption != 0 && chosenOption == correctOption && chosenOption == 1, 'chosen-incorrect': chosenOption != 0 && chosenOption != correctOption && chosenOption == 1}">
-                <h3>
-                    {{ option1?.title}}
-                </h3>
-                <p>
-                    {{ option1?.description}}
-                </p>
-                <div *ngIf="over">
-                    {{option1?.averageViews}} daily views
-                </div>
-                
-                <div *ngIf="!over">
-                    <h4>Choose this one</h4>
-                    <!--<button class="ui green button" [disabled]="over" (click)="option1Clicked()">Choose this one</button>-->
-                </div>
-                
-            </div>
-
-            <div class="ui one wide column"></div>
-
-            <div class="wpOption ui seven wide column middle aligned center aligned" (click)="option2Clicked()" [ngClass]="{'chosen-correct': chosenOption != 0 && chosenOption == correctOption && chosenOption == 2, 'chosen-incorrect': chosenOption != 0 && chosenOption != correctOption && chosenOption == 2}">
-                <h3>
-                    {{ option2?.title}}
-                </h3>
-                <p>
-                    {{ option2?.description}}
-                </p>
-                <div *ngIf="over">
-                    {{option2?.averageViews}} daily views
-                </div>
-                
-                <div *ngIf="!over">
-                    <h4>Choose that one</h4>
-                    <!--<button class="ui green button" [disabled]="over" (click)="option2Clicked()">Choose that one</button>-->
-                </div>
-                
-            </div>
-        </div>
-        <div class="ui row" *ngIf="over && score > 0">
-            <button class="ui blue button" (click)="initializeOptions()">Next round</button>
-        </div>
-
-        <div class="ui row" *ngIf="over && score == 0">
-            <button class="ui blue button" (click)="initializeOptions()">Try again</button>
-        </div>
     </div>
 </div>
