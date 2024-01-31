@@ -17,13 +17,13 @@
 }
 
 .wpOption.chosen-correct {
-    background: rgba(13, 73, 27, 1);
+    background: rgba(13, 73, 27, 0.6);
     color: white;
     cursor: default;
 }
 
 .wpOption.chosen-incorrect {
-    background: rgba(209, 41, 41, 1);
+    background: rgba(209, 41, 41, 0.3);
     color: white;
     cursor: default;
 }
