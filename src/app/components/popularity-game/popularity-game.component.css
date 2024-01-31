@@ -1,26 +1,57 @@
 .wpOption {
+    position: relative;
     border: 1px solid #000000;
     border-radius: 5px;
     padding: 20px;
-    height: 100%;
+    height: auto;
+}
+
+.optionText {
+    position: relative;
 }
 
 .wpOption:hover {
-    background-color: #cccccc;
+    background: rgba(255, 255, 255, 0.7);
     color: black;
     cursor: pointer;
 }
 
 .wpOption.chosen-correct {
-    background-color: #21ba45;
+    background: rgba(13, 73, 27, 1);
     color: white;
     cursor: default;
 }
 
 .wpOption.chosen-incorrect {
-    background-color: rgb(209, 41, 41);
+    background: rgba(209, 41, 41, 1);
     color: white;
     cursor: default;
+}
+
+.wpOption::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background: rgba(0,0,0,0.65);
+}
+
+
+.wpOption:hover::before {
+    background: rgba(255, 255, 255, 0.7);
+    color: black;
+    cursor: pointer;
+}
+
+
+.wpOption.chosen-correct::before{
+    background: rgba(13, 73, 27, 0.6);
+}
+
+.wpOption.chosen-incorrect::before{
+    background: rgba(209, 41, 41, 0.3);
 }
 
 .title {
