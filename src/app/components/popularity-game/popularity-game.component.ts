@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 import { wikiArticles } from 'src/app/data/wiki-article-data';
 import { WikiArticle } from 'src/app/domain/wiki-article';
@@ -25,6 +25,19 @@ export class PopularityGameComponent {
 
   showShare = false;
   shareText = '';
+
+  windowWidth = 0;
+  windowWidthThreshold = 850;
+
+  ngOnInit() {
+    this.windowWidth = window.innerWidth;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.windowWidth = window.innerWidth;
+    console.log(this.windowWidth);
+  }
 
   constructor(
     private apiService: WikipediaApiService,
@@ -130,6 +143,8 @@ export class PopularityGameComponent {
         this.option2 = res.option2;
         this.over = false;
         this.notificationText = 'Which article is more popular?';
+        console.log(this.option1?.imageUrl);
+        console.log(this.option2?.imageUrl);
       });
   }
 

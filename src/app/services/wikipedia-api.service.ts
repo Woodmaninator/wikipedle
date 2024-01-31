@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap } from 'rxjs';
 import { RandomArticle } from '../domain/random-article';
 import { WikiArticle } from '../domain/wiki-article';
 
@@ -73,14 +73,48 @@ export class WikipediaApiService {
       );
   }
 
+  getImageForPage(pageId: number): Observable<string> {
+    const imageWidth = 400;
+
+    return this.http
+      .get(
+        environment.wikipediaApiUrl +
+          '?action=query&format=json&prop=pageimages&origin=*&pithumbsize=' +
+          imageWidth +
+          '&pageids=' +
+          pageId
+      )
+      .pipe(
+        map<any, string>((res: any) => {
+          if (res.query.pages[pageId.toString()].thumbnail) {
+            return res.query.pages[pageId.toString()].thumbnail.source;
+          } else {
+            return '';
+          }
+        })
+      );
+  }
+
   fillWikiArticleWithActualInformation(
     wikiArticle: WikiArticle
   ): Observable<WikiArticle> {
-    return this.getDescriptionForPage(wikiArticle.id).pipe(
-      map<string, WikiArticle>((description: string) => {
-        wikiArticle.description = description;
-        return wikiArticle;
-      })
-    );
+    return this.getDescriptionForPage(wikiArticle.id)
+      .pipe(
+        map<string, WikiArticle>((description: string) => {
+          wikiArticle.description = description;
+          wikiArticle.imageUrl = '';
+          return wikiArticle;
+        })
+      )
+      .pipe(
+        switchMap((wikiArticle: WikiArticle) => {
+          return this.getImageForPage(wikiArticle.id).pipe(
+            map<string, WikiArticle>((imageUrl: string) => {
+              wikiArticle.imageUrl = imageUrl;
+              return wikiArticle;
+            })
+          );
+        })
+      );
   }
 }
