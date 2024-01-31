@@ -2499,7 +2499,7 @@ export const wikiArticles: WikiArticle[] = [
   new WikiArticle(1601889, 'European Golden Shoe', 1602),
   new WikiArticle(19211, 'Mayotte', 1602),
   new WikiArticle(41940, 'Gentrification', 1601),
-  new WikiArticle(155117, 'Pubic hair', 1601),
+  //new WikiArticle(155117, 'Pubic hair', 1601), THE THUMBNAIL FOR THIS ARTICLE SHOWS ACTUAL PUBIC HAIR ON ACTUAL PEOPLE
   new WikiArticle(63927, 'Cartagena, Colombia', 1600),
   new WikiArticle(12562, 'Gregor Mendel', 1600),
   new WikiArticle(25421, 'Rapping', 1599),
