@@ -4,6 +4,7 @@
     border-radius: 5px;
     padding: 20px;
     height: auto;
+    min-height: 170px;
 }
 
 .optionText {
@@ -35,7 +36,7 @@
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0,0,0,0.75);
 }
 
 

@@ -26,18 +26,7 @@ export class PopularityGameComponent {
   showShare = false;
   shareText = '';
 
-  windowWidth = 0;
   windowWidthThreshold = 850;
-
-  ngOnInit() {
-    this.windowWidth = window.innerWidth;
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.windowWidth = window.innerWidth;
-    console.log(this.windowWidth);
-  }
 
   constructor(
     private apiService: WikipediaApiService,
@@ -66,9 +55,21 @@ export class PopularityGameComponent {
         this.notificationText = 'Correct!';
         this.score++;
 
-        //Confetti time
+        //Check if the target is an h4 tag and use its parent in that case
+        if (target.tagName === 'H4') {
+          target = target.parentElement.parentElement;
+        }
+
+        let confettiCountMin = 25;
+        let confettiCountMax = 50;
+
+        if (window.innerWidth > this.windowWidthThreshold) {
+          confettiCountMax = 150;
+          confettiCountMin = 100;
+        }
+
         party.confetti(target, {
-          count: party.variation.range(100, 150),
+          count: party.variation.range(confettiCountMin, confettiCountMax),
           shapes: [
             'square',
             'circle',
